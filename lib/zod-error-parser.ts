@@ -1,6 +1,6 @@
-import * as z from "zod";
+import { ZodError } from "zod";
 
-export function formatErrorMessages(err: z.ZodError): string {
+export function formatErrorMessages(err: ZodError): string {
   const errorMessages: string[] = [];
   const errorObj = err.flatten().fieldErrors;
 

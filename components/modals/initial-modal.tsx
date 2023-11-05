@@ -26,23 +26,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import FileUpload from "@/components/file-upload";
 import { useRouter } from "next/navigation";
-
-const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Server name is required",
-  }),
-  imageUrl: z.string().min(1, {
-    message: "Server image is required",
-  }),
-});
+import { formSchema } from "@/lib/validation/server";
 
 export default function InitialModal() {
   const [isMounted, setIsMounted] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const router = useRouter();
 
+  // to avoid hydration errors for modal
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,11 +50,9 @@ export default function InitialModal() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      // await axios.post("/api/servers", values);
       await axios.post("/api/servers", values);
 
       form.reset();
-
       router.refresh();
       window.location.reload();
     } catch (error) {
@@ -96,6 +89,8 @@ export default function InitialModal() {
                           endpoint="serverImage"
                           value={field.value}
                           onChange={field.onChange}
+                          isImageLoading={isImageLoading}
+                          setIsImageLoading={setIsImageLoading}
                         />
                       </FormControl>
                     </FormItem>
