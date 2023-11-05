@@ -4,9 +4,12 @@ import { v4 as uuid } from "uuid";
 import { NextResponse } from "next/server";
 import { MemberRoles } from "@prisma/client";
 import * as z from "zod";
+import { formatErrorMessages } from "@/lib/zod-error-parser";
 
 const serverPostSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, {
+    message: "Server Name is Required",
+  }),
   imageUrl: z.string().min(1, {
     message: "Image Url is Required",
   }),
@@ -14,7 +17,9 @@ const serverPostSchema = z.object({
 
 export async function POST(req: Request) {
   try {
-    const { name, imageUrl } = await req.json();
+    const res = serverPostSchema.parse(await req.json());
+
+    const { name, imageUrl } = res;
 
     const profile = await currentProfile();
 
@@ -42,6 +47,15 @@ export async function POST(req: Request) {
     return NextResponse.json(server);
   } catch (error) {
     console.log("[SERVERS_POST]", error);
+
+    if (error instanceof z.ZodError) {
+      return new NextResponse(
+        `Validation Error : ${formatErrorMessages(error)}`,
+        {
+          status: 500,
+        }
+      );
+    }
 
     return new NextResponse("Internal Error", { status: 500 });
   }
