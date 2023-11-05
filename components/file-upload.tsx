@@ -22,13 +22,13 @@ interface FileUploadProps {
   setIsImageLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function FileUpload({
+export const FileUpload = ({
   endpoint,
   onChange,
   value,
   isImageLoading,
   setIsImageLoading,
-}: FileUploadProps) {
+}: FileUploadProps) => {
   const fileType = value?.split(".").pop();
 
   if (value && fileType !== "pdf") {
@@ -66,4 +66,4 @@ export default function FileUpload({
       />
     </div>
   );
-}
+};

@@ -24,11 +24,11 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import FileUpload from "@/components/file-upload";
+import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import { formSchema } from "@/lib/validation/server";
 
-export default function InitialModal() {
+export const InitialModal = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(false);
   const router = useRouter();
@@ -128,4 +128,4 @@ export default function InitialModal() {
       </DialogContent>
     </Dialog>
   );
-}
+};
