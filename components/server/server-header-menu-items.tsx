@@ -7,9 +7,17 @@ import {
   LogOut,
 } from "lucide-react";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
-export function InvitePeopleMenuItem() {
+
+interface InvitePeopleMenuItemProps {
+  onClick: () => void;
+}
+
+export function InvitePeopleMenuItem({ onClick }: InvitePeopleMenuItemProps) {
   return (
-    <DropdownMenuItem className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer">
+    <DropdownMenuItem
+      onClick={onClick}
+      className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
+    >
       Invite People
       <UserPlus className="h-4 w-4 ml-auto" />
     </DropdownMenuItem>

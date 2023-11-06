@@ -1,3 +1,4 @@
+"use client";
 import { ServerWithMembersWithProfiles } from "@/types";
 import { MemberRoles } from "@prisma/client";
 import React from "react";
@@ -16,6 +17,7 @@ import {
   ManageMembersMenuItem,
   ServerSettingsMenuItem,
 } from "./server-header-menu-items";
+import { useModal } from "@/hooks/useModalStore";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles;
@@ -23,6 +25,7 @@ interface ServerHeaderProps {
 }
 
 export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
+  const { onOpen } = useModal();
   const isAdmin = role === MemberRoles.ADMIN;
 
   const isModerator = isAdmin || role === MemberRoles.MODERATOR;
@@ -36,7 +39,9 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
-        {isModerator && <InvitePeopleMenuItem />}
+        {isModerator && (
+          <InvitePeopleMenuItem onClick={() => onOpen("invite", { server })} />
+        )}
         {isAdmin && <ServerSettingsMenuItem />}
         {isAdmin && <ManageMembersMenuItem />}
         {isModerator && <CreateChannelMenuItem />}
