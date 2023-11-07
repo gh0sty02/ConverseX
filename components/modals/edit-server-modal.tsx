@@ -2,8 +2,8 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 import {
   Dialog,
@@ -28,10 +28,8 @@ import { formSchema } from "@/lib/validation/server";
 import { useModal } from "@/hooks/useModalStore";
 import { useModalSubmitFactory } from "@/hooks/factory/useModalSubmitFactory";
 
-export const CreateServerModal = () => {
-  // hook calls
+export const EditServerModal = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
-  const { isOpen, onClose, onOpen, type } = useModal();
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -40,20 +38,33 @@ export const CreateServerModal = () => {
       imageUrl: "",
     },
   });
+  const {
+    isOpen,
+    onClose,
+    type,
+    data: { server },
+  } = useModal();
+
+  useEffect(() => {
+    if (server) {
+      form.setValue("name", server.name);
+      form.setValue("imageUrl", server.imageUrl);
+    }
+  }, [server, form]);
+
+  const isModalOpen = isOpen && type === "editServer";
+  const isLoading = form.formState.isSubmitting;
 
   const submitHandler = useModalSubmitFactory({
+    method: "PATCH",
     form,
-    method: "POST",
-    url: "/api/servers",
+    url: `/api/servers/${server?.id}`,
   });
-
   const handleClose = () => {
     form.reset();
     onClose();
   };
 
-  const isModalOpen = isOpen && type === "createServer";
-  const isLoading = form.formState.isSubmitting;
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
@@ -114,7 +125,7 @@ export const CreateServerModal = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>

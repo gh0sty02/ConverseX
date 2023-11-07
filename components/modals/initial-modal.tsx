@@ -1,5 +1,10 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import {
   Dialog,
   DialogContent,
@@ -16,28 +21,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import * as z from "zod";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
 import { FileUpload } from "@/components/file-upload";
-import { useRouter } from "next/navigation";
 import { formSchema } from "@/lib/validation/server";
+import { useModalSubmitFactory } from "@/hooks/factory/useModalSubmitFactory";
 
 export const InitialModal = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(false);
-  const router = useRouter();
-
-  // to avoid hydration errors for modal
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,19 +39,18 @@ export const InitialModal = () => {
     },
   });
 
+  // to avoid hydration errors for modal
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const submitHandler = useModalSubmitFactory({
+    method: "POST",
+    url: "/api/servers",
+    form,
+  });
+
   const isLoading = form.formState.isSubmitting;
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      await axios.post("/api/servers", values);
-
-      form.reset();
-      router.refresh();
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   if (!isMounted) {
     return null;
@@ -76,7 +68,10 @@ export const InitialModal = () => {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(submitHandler)}
+            className="space-y-8"
+          >
             <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center">
                 <FormField

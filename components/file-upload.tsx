@@ -41,10 +41,12 @@ export const FileUpload = ({
           src={value}
           alt="Upload"
           className="rounded-full"
-          onLoadingComplete={() => setIsImageLoading(false)}
+          onLoad={() => setIsImageLoading(false)}
         />
         <button
-          onClick={() => onChange("")}
+          onClick={() => {
+            onChange("");
+          }}
           className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
         >
           <X className="h-4 w-4" />

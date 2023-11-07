@@ -7,7 +7,7 @@ import { create } from "zustand";
 // If both conditions are satisfied, we render the modal.
 
 // modal types will determine what kind of modal has to be rendered
-export type ModalType = "createServer" | "invite";
+export type ModalType = "createServer" | "invite" | "editServer";
 
 interface ModalData {
   server?: Server;

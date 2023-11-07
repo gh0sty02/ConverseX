@@ -2,13 +2,14 @@
 import { ServerWithMembersWithProfiles } from "@/types";
 import { MemberRoles } from "@prisma/client";
 import React from "react";
+import { ChevronDown } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
 import {
   CreateChannelMenuItem,
   DeleteServerMenuItem,
@@ -26,8 +27,8 @@ interface ServerHeaderProps {
 
 export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
   const { onOpen } = useModal();
-  const isAdmin = role === MemberRoles.ADMIN;
 
+  const isAdmin = role === MemberRoles.ADMIN;
   const isModerator = isAdmin || role === MemberRoles.MODERATOR;
 
   return (
@@ -42,7 +43,11 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         {isModerator && (
           <InvitePeopleMenuItem onClick={() => onOpen("invite", { server })} />
         )}
-        {isAdmin && <ServerSettingsMenuItem />}
+        {isAdmin && (
+          <ServerSettingsMenuItem
+            onClick={() => onOpen("editServer", { server })}
+          />
+        )}
         {isAdmin && <ManageMembersMenuItem />}
         {isModerator && <CreateChannelMenuItem />}
         {isModerator && <DropdownMenuSeparator />}

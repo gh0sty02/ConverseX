@@ -1,23 +1,22 @@
 "use client";
 
+import { Check, Copy, RefreshCw } from "lucide-react";
+import axios from "axios";
+import { useState } from "react";
+
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import axios from "axios";
-import { useState } from "react";
 import { useModal } from "@/hooks/useModalStore";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Check, Copy, RefreshCw } from "lucide-react";
 import { useOrigin } from "@/hooks/use-origin";
 
 export const InviteModal = () => {
-  const [isImageLoading, setIsImageLoading] = useState(false);
   const {
     isOpen,
     onClose,
@@ -28,9 +27,8 @@ export const InviteModal = () => {
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onCopy = () => {
+  const copyLinkHandler = () => {
     navigator.clipboard.writeText(inviteUrl);
-
     setCopied(true);
 
     setTimeout(() => {
@@ -38,13 +36,12 @@ export const InviteModal = () => {
     }, 1000);
   };
 
-  const onNew = async () => {
+  const createNewLinkHandler = async () => {
     try {
       setIsLoading(true);
       const response = await axios.patch(
         `/api/servers/${server?.id}/invite-code`
       );
-
       onOpen("invite", { server: response.data });
     } catch (error) {
       console.log(error);
@@ -77,7 +74,7 @@ export const InviteModal = () => {
               disabled={isLoading}
               readOnly
             />
-            <Button size="icon" onClick={onCopy} disabled={isLoading}>
+            <Button size="icon" onClick={copyLinkHandler} disabled={isLoading}>
               {copied ? (
                 <Check className="w-4 h-4" />
               ) : (
@@ -90,7 +87,7 @@ export const InviteModal = () => {
             variant="link"
             size="sm"
             disabled={isLoading}
-            onClick={onNew}
+            onClick={createNewLinkHandler}
           >
             Generate a new Link
             <RefreshCw className="w-4 h-4 ml-2" />
