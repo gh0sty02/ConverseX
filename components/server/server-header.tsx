@@ -48,7 +48,11 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             onClick={() => onOpen("editServer", { server })}
           />
         )}
-        {isAdmin && <ManageMembersMenuItem />}
+        {isAdmin && (
+          <ManageMembersMenuItem
+            onClick={() => onOpen("members", { server })}
+          />
+        )}
         {isModerator && <CreateChannelMenuItem />}
         {isModerator && <DropdownMenuSeparator />}
         {isModerator && <DeleteServerMenuItem />}
