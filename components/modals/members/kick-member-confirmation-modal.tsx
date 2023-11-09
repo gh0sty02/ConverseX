@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { Member, Profile } from "@prisma/client";
 
-import { Button } from "../../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DialogHeader,
   DialogFooter,

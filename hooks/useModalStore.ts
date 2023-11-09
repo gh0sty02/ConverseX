@@ -7,7 +7,12 @@ import { create } from "zustand";
 // If both conditions are satisfied, we render the modal.
 
 // modal types will determine what kind of modal has to be rendered
-export type ModalType = "createServer" | "invite" | "editServer" | "members";
+export type ModalType =
+  | "createServer"
+  | "invite"
+  | "editServer"
+  | "members"
+  | "createChannel";
 
 interface ModalData {
   server?: Server;
@@ -18,7 +23,10 @@ interface ModalStore {
   type: ModalType | null;
   isOpen: boolean;
   data: ModalData;
+  isCreateServerImageLoading: boolean; // New property
+  setIsCreateServerImageLoading: (loading: boolean) => void; // New function
   onOpen: (type: ModalType, data?: ModalData) => void;
+
   onClose: () => void;
 }
 
@@ -26,7 +34,10 @@ interface ModalStore {
 export const useModal = create<ModalStore>((set) => ({
   type: null,
   isOpen: false,
+  isCreateServerImageLoading: false,
   data: {},
   onOpen: (type, data = {}) => set({ isOpen: true, type, data }),
   onClose: () => set({ type: null, isOpen: false }),
+  setIsCreateServerImageLoading: (loading) =>
+    set({ isCreateServerImageLoading: loading }),
 }));

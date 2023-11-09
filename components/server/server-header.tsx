@@ -1,5 +1,4 @@
 "use client";
-import { ServerWithMembersWithProfiles } from "@/types";
 import { MemberRoles } from "@prisma/client";
 import React from "react";
 import { ChevronDown } from "lucide-react";
@@ -18,6 +17,7 @@ import {
   ManageMembersMenuItem,
   ServerSettingsMenuItem,
 } from "./server-header-menu-items";
+import { ServerWithMembersWithProfiles } from "@/types";
 import { useModal } from "@/hooks/useModalStore";
 
 interface ServerHeaderProps {
@@ -53,7 +53,11 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             onClick={() => onOpen("members", { server })}
           />
         )}
-        {isModerator && <CreateChannelMenuItem />}
+        {isModerator && (
+          <CreateChannelMenuItem
+            onClick={() => onOpen("createChannel", { server })}
+          />
+        )}
         {isModerator && <DropdownMenuSeparator />}
         {isModerator && <DeleteServerMenuItem />}
         {!isAdmin && <LeaveServerMenuItem />}

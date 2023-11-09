@@ -1,7 +1,5 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -24,20 +22,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
-import { formSchema } from "@/lib/validation/server";
+import { createServerSchema } from "@/lib/validation/serverSchema";
 import { useModal } from "@/hooks/useModalStore";
 import { useModalSubmitFactory } from "@/hooks/factory/useModalSubmitFactory";
+import { useCreateServerForm } from "@/lib/form/useServerForm";
 
 export const EditServerModal = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const router = useRouter();
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      imageUrl: "",
-    },
-  });
+  const form = useCreateServerForm();
   const {
     isOpen,
     onClose,
@@ -56,9 +49,10 @@ export const EditServerModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const submitHandler = useModalSubmitFactory({
-    method: "PATCH",
     form,
-    url: `/api/servers/${server?.id}`,
+    method: "POST",
+    url: "/api/servers",
+    schema: createServerSchema,
   });
   const handleClose = () => {
     form.reset();

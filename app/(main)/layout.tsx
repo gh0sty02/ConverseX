@@ -1,5 +1,6 @@
-import { NavigationSideBar } from "@/components/navigation/navigation-sidebar";
 import React from "react";
+
+import { NavigationSideBar } from "@/components/navigation/navigation-sidebar";
 
 export default function MainLayout({
   children,

@@ -6,7 +6,7 @@ import {
   Trash,
   LogOut,
 } from "lucide-react";
-import { DropdownMenuItem } from "../ui/dropdown-menu";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 interface MenuItemProps {
   onClick: () => void;
@@ -48,9 +48,12 @@ export function ManageMembersMenuItem({ onClick }: MenuItemProps) {
   );
 }
 
-export function CreateChannelMenuItem() {
+export function CreateChannelMenuItem({ onClick }: MenuItemProps) {
   return (
-    <DropdownMenuItem className="px-3 py-2 text-sm cursor-pointer">
+    <DropdownMenuItem
+      className="px-3 py-2 text-sm cursor-pointer"
+      onClick={onClick}
+    >
       Create Channel
       <PlusCircle className="h-4 w-4 ml-auto" />
     </DropdownMenuItem>

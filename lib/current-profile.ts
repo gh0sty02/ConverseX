@@ -1,7 +1,8 @@
 import { auth } from "@clerk/nextjs";
+
 import { db } from "@/lib/db";
 
-export const currentProfile = async () => {
+export const getCurrentUser = async () => {
   const { userId } = auth();
 
   if (!userId) {

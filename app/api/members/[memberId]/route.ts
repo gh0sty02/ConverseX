@@ -1,14 +1,14 @@
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
-import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
+
+import { getCurrentUser } from "@/lib/current-profile";
+import { db } from "@/lib/db";
 
 export async function PATCH(
   req: Request,
   { params: { memberId } }: { params: { memberId: string } }
 ) {
   try {
-    const profile = await currentProfile();
+    const profile = await getCurrentUser();
     const { searchParams } = new URL(req.url);
 
     const { role } = await req.json();
@@ -68,7 +68,7 @@ export async function DELETE(
   { params }: { params: { memberId: string } }
 ) {
   try {
-    const profile = await currentProfile();
+    const profile = await getCurrentUser();
     const { searchParams } = new URL(req.url);
 
     const serverId = searchParams.get("serverId");

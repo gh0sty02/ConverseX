@@ -1,8 +1,9 @@
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
 import { ChannelType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import React from "react";
+
+import { getCurrentUser } from "@/lib/current-profile";
+import { db } from "@/lib/db";
 import { ServerHeader } from "@/components/server/server-header";
 
 interface ServerSideBarProps {
@@ -10,7 +11,7 @@ interface ServerSideBarProps {
 }
 
 export const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
-  const profile = await currentProfile();
+  const profile = await getCurrentUser();
 
   if (!profile) {
     return redirect("/");

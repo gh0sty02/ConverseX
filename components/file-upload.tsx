@@ -1,11 +1,10 @@
-import React, { Dispatch, SetStateAction, Suspense, useState } from "react";
-
 import { X } from "lucide-react";
+import Image from "next/image";
 
 import { UploadDropzone } from "@/lib/uploadthing";
 import "@uploadthing/react/styles.css";
-import Image from "next/image";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useModal } from "@/hooks/useModalStore";
 
 interface FileUploadProps {
   onChange: (url?: string) => void;
@@ -19,7 +18,7 @@ interface FileUploadProps {
   // prop drilling the state and setState because idk why but the onChange function
   // was causing multiple re-renders for this component if any component state was changed
   isImageLoading: boolean;
-  setIsImageLoading: Dispatch<SetStateAction<boolean>>;
+  setIsImageLoading: (state: boolean) => void;
 }
 
 export const FileUpload = ({
@@ -29,19 +28,22 @@ export const FileUpload = ({
   isImageLoading,
   setIsImageLoading,
 }: FileUploadProps) => {
+  const { setIsCreateServerImageLoading, isCreateServerImageLoading } =
+    useModal();
   const fileType = value?.split(".").pop();
 
   if (value && fileType !== "pdf") {
-    setIsImageLoading(true);
     return (
       <div className="relative h-20 w-20">
-        {isImageLoading && <Skeleton className="w-full h-full rounded-full" />}
+        {isCreateServerImageLoading && (
+          <Skeleton className="w-full h-full rounded-full" />
+        )}
         <Image
           fill
           src={value}
           alt="Upload"
           className="rounded-full"
-          onLoad={() => setIsImageLoading(false)}
+          onLoad={() => setIsCreateServerImageLoading(false)}
         />
         <button
           onClick={() => {
@@ -60,6 +62,7 @@ export const FileUpload = ({
       <UploadDropzone
         endpoint={endpoint}
         onClientUploadComplete={(res) => {
+          setIsCreateServerImageLoading(true);
           onChange(res?.[0].url);
         }}
         onUploadError={(error: Error) => {

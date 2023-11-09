@@ -1,14 +1,14 @@
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
-import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
+
+import { getCurrentUser } from "@/lib/current-profile";
+import { db } from "@/lib/db";
 
 export const PATCH = async (
   req: Request,
   { params: { serverId } }: { params: { serverId: string } }
 ) => {
   try {
-    const profile = await currentProfile();
+    const profile = await getCurrentUser();
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });

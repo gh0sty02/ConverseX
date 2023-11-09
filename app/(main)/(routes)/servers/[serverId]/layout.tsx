@@ -1,9 +1,10 @@
-import { ServerSideBar } from "@/components/server/server-sidebar";
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
 import { redirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";
+
+import { ServerSideBar } from "@/components/server/server-sidebar";
+import { getCurrentUser } from "@/lib/current-profile";
+import { db } from "@/lib/db";
 
 export default async function ServerIdLayout({
   children,
@@ -12,7 +13,7 @@ export default async function ServerIdLayout({
   children: React.ReactNode;
   params: { serverId: string };
 }) {
-  const profile = await currentProfile();
+  const profile = await getCurrentUser();
 
   if (!profile) {
     return redirectToSignIn();

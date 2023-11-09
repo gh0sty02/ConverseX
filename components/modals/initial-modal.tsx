@@ -1,9 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -25,19 +22,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { FileUpload } from "@/components/file-upload";
-import { formSchema } from "@/lib/validation/server";
+import { createServerSchema } from "@/lib/validation/serverSchema";
 import { useModalSubmitFactory } from "@/hooks/factory/useModalSubmitFactory";
+import { useCreateServerForm } from "@/lib/form/useServerForm";
 
 export const InitialModal = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(false);
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      imageUrl: "",
-    },
-  });
+  const form = useCreateServerForm();
 
   // to avoid hydration errors for modal
   useEffect(() => {
@@ -45,9 +37,10 @@ export const InitialModal = () => {
   }, []);
 
   const submitHandler = useModalSubmitFactory({
+    form,
     method: "POST",
     url: "/api/servers",
-    form,
+    schema: createServerSchema,
   });
 
   const isLoading = form.formState.isSubmitting;

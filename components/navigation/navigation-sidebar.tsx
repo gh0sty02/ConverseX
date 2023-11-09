@@ -1,7 +1,7 @@
 import { UserButton } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-import { currentProfile } from "@/lib/current-profile";
+import { getCurrentUser } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { NavigationAction } from "@/components/navigation/navigation-action";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +10,7 @@ import { NavigationItem } from "./navigation-item";
 import { ModeToggle } from "@/components/mode-toggle";
 
 export const NavigationSideBar = async () => {
-  const profile = await currentProfile();
+  const profile = await getCurrentUser();
 
   if (!profile) {
     return redirect("/");
