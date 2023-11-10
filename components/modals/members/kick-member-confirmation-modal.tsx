@@ -41,7 +41,7 @@ export const KickUserConfirmationModal = ({
         <DialogFooter className="flex items-center justify-end ">
           <Button
             onClick={() => setIsKickMemberDialogOpen(false)}
-            variant="link"
+            variant="ghost"
             className="text-xs text-gray-500 w-24"
           >
             Cancel

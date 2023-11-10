@@ -8,7 +8,7 @@ import { createServerSchema } from "@/lib/validation/serverSchema";
 import { createChannelSchema } from "@/lib/validation/channelSchema";
 
 interface useModalSubmitFactoryArgs {
-  form: UseFormReturn<
+  form?: UseFormReturn<
     z.infer<typeof createChannelSchema | typeof createServerSchema>
   >;
   url: string;
@@ -28,7 +28,9 @@ export const useModalSubmitFactory = ({
     try {
       await axios({ url, method, data: values });
 
-      form.reset();
+      if (form) {
+        form.reset();
+      }
       router.refresh();
       onClose();
     } catch (error) {
