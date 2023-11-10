@@ -26,7 +26,7 @@ export const useModalSubmitFactory = ({
   const { onClose } = useModal();
   return async (values: z.infer<typeof schema>) => {
     try {
-      await axios({ url, method, data: {} });
+      await axios({ url, method, data: values });
 
       if (form) {
         form.reset();
