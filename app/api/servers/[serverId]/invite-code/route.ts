@@ -3,7 +3,11 @@ import { v4 as uuid } from "uuid";
 
 import { getCurrentUser } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { serverErrorHandler } from "@/lib/server-error-handler";
 
+// @desc    Change Server Invite Code
+// @route   PATCH /api/servers/serverId/invite-code
+// @access  Server Members
 export async function PATCH(
   req: Request,
   { params }: { params: { serverId: string } }
@@ -31,6 +35,6 @@ export async function PATCH(
     return NextResponse.json(server);
   } catch (error) {
     console.log("[SERVER_ID]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return serverErrorHandler(error);
   }
 }

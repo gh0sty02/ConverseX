@@ -1,26 +1,18 @@
-import * as z from "zod";
 import { v4 as uuid } from "uuid";
 import { MemberRoles } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import { formatErrorMessages } from "@/lib/zod-error-parser";
+import { createServerSchema } from "@/lib/validation/serverSchema";
+import { serverErrorHandler } from "@/lib/server-error-handler";
 
-const serverPostSchema = z.object({
-  name: z.string().min(1, {
-    message: "Server Name is Required",
-  }),
-  imageUrl: z.string().min(1, {
-    message: "Image Url is Required",
-  }),
-});
-
+// @desc    Create New Server
+// @route   POST /api/servers
+// @access  Public
 export async function POST(req: Request) {
   try {
-    const res = serverPostSchema.parse(await req.json());
-
-    const { name, imageUrl } = res;
+    const { name, imageUrl } = createServerSchema.parse(await req.json());
 
     const profile = await getCurrentUser();
 
@@ -46,16 +38,6 @@ export async function POST(req: Request) {
     return NextResponse.json(server);
   } catch (error) {
     console.log("[SERVERS_POST]", error);
-
-    if (error instanceof z.ZodError) {
-      return new NextResponse(
-        `Validation Error : ${formatErrorMessages(error)}`,
-        {
-          status: 500,
-        }
-      );
-    }
-
-    return new NextResponse("Internal Error", { status: 500 });
+    return serverErrorHandler(error);
   }
 }

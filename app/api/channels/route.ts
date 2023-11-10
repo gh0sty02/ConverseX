@@ -1,13 +1,20 @@
 import { MemberRoles } from "@prisma/client";
 import { NextResponse } from "next/server";
+import * as z from "zod";
 
 import { getCurrentUser } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { createChannelSchema } from "@/lib/validation/channelSchema";
+import { serverErrorHandler } from "@/lib/server-error-handler";
 
+// @desc    Create Channel
+// @route   POST /api/channels/
+// @access  ADMIN | MODERATOR
 export async function POST(req: Request) {
   try {
+    const { name, type } = createChannelSchema.parse(await req.json());
+
     const profile = await getCurrentUser();
-    const { name, type } = await req.json();
 
     const { searchParams } = new URL(req.url);
     const serverId = searchParams.get("serverId");
@@ -48,6 +55,6 @@ export async function POST(req: Request) {
     return NextResponse.json(server);
   } catch (error) {
     console.log("[CHANNELS_POST]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return serverErrorHandler(error);
   }
 }

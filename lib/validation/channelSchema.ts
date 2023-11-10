@@ -10,5 +10,7 @@ export const createChannelSchema = z.object({
     .refine((name) => name !== "general", {
       message: "Channel name cannot be 'general'",
     }),
-  type: z.nativeEnum(ChannelType),
+  type: z.nativeEnum(ChannelType, {
+    required_error: "Channel Type is Required",
+  }),
 });

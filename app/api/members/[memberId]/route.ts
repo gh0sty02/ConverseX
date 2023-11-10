@@ -2,16 +2,30 @@ import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import * as z from "zod";
+import { MemberRoles } from "@prisma/client";
+import { serverErrorHandler } from "@/lib/server-error-handler";
 
+const memberRoleSchema = z.object({
+  role: z.nativeEnum(MemberRoles, {
+    required_error: "Member Role is Required",
+  }),
+});
+
+// @desc    Change Role of Server Member
+// @route   PATCH /api/members/memberId/
+// @access  ADMIN | MODERATOR
 export async function PATCH(
   req: Request,
   { params: { memberId } }: { params: { memberId: string } }
 ) {
   try {
+    const { role } = memberRoleSchema.parse(await req.json());
+
     const profile = await getCurrentUser();
+
     const { searchParams } = new URL(req.url);
 
-    const { role } = await req.json();
     const serverId = searchParams.get("serverId");
 
     if (!profile) {
@@ -61,8 +75,14 @@ export async function PATCH(
     return NextResponse.json(server);
   } catch (error) {
     console.log("[MEMBER_ID_PATCH]", error);
+
+    return serverErrorHandler(error);
   }
 }
+
+// @desc    Kick Server Member
+// @route   DELETE /api/members/memberId/
+// @access  ADMIN | MODERATOR
 export async function DELETE(
   req: Request,
   { params }: { params: { memberId: string } }
@@ -115,6 +135,6 @@ export async function DELETE(
     return NextResponse.json(server);
   } catch (error) {
     console.log("[MEMBER_ID_DELETE]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return serverErrorHandler(error);
   }
 }

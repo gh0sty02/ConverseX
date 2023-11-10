@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { serverErrorHandler } from "@/lib/server-error-handler";
 
+// @desc    Leave Server
+// @route   PATCH /api/servers/serverId/leave
+// @access  Server Members
 export const PATCH = async (
   req: Request,
   { params: { serverId } }: { params: { serverId: string } }
@@ -43,6 +47,6 @@ export const PATCH = async (
   } catch (error) {
     console.log("[SERVER_ID_LEAVE_PATCH", error);
 
-    return new NextResponse("Internal Error", { status: 500 });
+    return serverErrorHandler(error);
   }
 };
