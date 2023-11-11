@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/current-profile";
 
 import { ConfirmJoinServerModal } from "@/components/modals/confirm-join-server-modal";
+import { InvalidInviteModal } from "@/components/modals/invalid-invite-modal";
 
 interface InviteCodePageProps {
   params: {
@@ -14,7 +15,7 @@ interface InviteCodePageProps {
 }
 
 const InviteCodePage = async ({
-  params,
+  params: { inviteCode },
   searchParams,
 }: InviteCodePageProps) => {
   const profile = await getCurrentUser();
@@ -23,22 +24,13 @@ const InviteCodePage = async ({
     return redirectToSignIn();
   }
 
-  if (!params.inviteCode) {
+  if (!inviteCode) {
     return redirect("/");
   }
 
-  console.log("yes");
-  const inviterProfile = await db.profile.findUnique({
+  const userInInvitedServer = await db.server.findFirst({
     where: {
-      userId: searchParams.inviter,
-    },
-  });
-
-  console.log(inviterProfile);
-
-  const existingServer = await db.server.findFirst({
-    where: {
-      inviteCode: params.inviteCode,
+      inviteCode: inviteCode,
       members: {
         some: {
           profileId: profile.id,
@@ -47,43 +39,41 @@ const InviteCodePage = async ({
     },
   });
 
-  if (existingServer) {
-    return redirect(`/servers/${existingServer.id}`);
+  if (userInInvitedServer) {
+    return redirect(`/servers/${userInInvitedServer.id}`);
   }
 
+  // get the inviter name
+  const inviterName = await db.profile.findUnique({
+    where: {
+      userId: searchParams.inviter,
+    },
+    select: {
+      name: true,
+    },
+  });
+
+  // get the invited server
   const server = await db.server.findFirst({
     where: {
-      inviteCode: params.inviteCode,
+      inviteCode: inviteCode,
     },
     include: {
       members: true,
     },
-    // data: {
-    //   members: {
-    //     create: [
-    //       {
-    //         profileId: profile.id,
-    //       },
-    //     ],
-    //   },
-    // },
   });
 
-  // if (server) {
-  //   return redirect(`/servers/${server.id}`);
-  // }
-
-  if (server) {
+  if (server && inviterName) {
     return (
       <ConfirmJoinServerModal
         server={server}
-        inviter={inviterProfile!.name}
+        inviter={inviterName.name}
         currentUserId={profile.id}
       />
     );
   }
 
-  return null;
+  return <InvalidInviteModal />;
 };
 
 export default InviteCodePage;

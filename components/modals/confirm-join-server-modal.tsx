@@ -17,17 +17,19 @@ import { db } from "@/lib/db";
 import { ServerWithMembersWithProfiles } from "@/types";
 import axios from "axios";
 
-export const ConfirmJoinServerModal = ({
-  server,
-  inviter,
-  currentUserId,
-}: {
+interface ConfirmJoinServerModalProps {
   server: Server & {
     members: Member[];
   };
   inviter: string;
   currentUserId: string;
-}) => {
+}
+
+export const ConfirmJoinServerModal = ({
+  server,
+  inviter,
+  currentUserId,
+}: ConfirmJoinServerModalProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -57,8 +59,10 @@ export const ConfirmJoinServerModal = ({
     }
   };
 
+  const onCloseHandler = () => router.push("/");
+
   return (
-    <Dialog open={true} onOpenChange={() => router.push("/")}>
+    <Dialog defaultOpen onOpenChange={onCloseHandler}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="flex justify-center ">

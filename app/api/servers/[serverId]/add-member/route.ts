@@ -1,26 +1,15 @@
 import { getCurrentUser } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { serverErrorHandler } from "@/lib/server-error-handler";
+import { addMemberToServerSchema } from "@/lib/validation/inviteMemberSchema";
 import { NextResponse } from "next/server";
-import * as z from "zod";
-
-const addMemberToServerSchema = z.object({
-  inviteCode: z.string().min(1, {
-    message: "Member Id is Required",
-  }),
-  memberId: z.string().min(1, {
-    message: "Member Id is Required",
-  }),
-});
 
 // @desc    Add Member to the server
 // @route   PATCH /api/servers/serverId/add-member
 // @access  Server Members
 export async function PATCH(
   req: Request,
-  {
-    params: { memberId, serverId },
-  }: { params: { serverId: string; memberId: string } }
+  { params: { serverId } }: { params: { serverId: string } }
 ) {
   console.log("inside");
   try {
