@@ -73,9 +73,7 @@ export const ConfirmJoinServerModal = ({
           <div className="text-center text-zinc-500">
             {inviter} has Invited you to Join <br />
             <div className="font-bold text-xl text-black">{server.name}</div>
-            <div className="text-muted text-xs">
-              {server.members.length} Members
-            </div>
+            <div className=" text-xs">{server.members.length} Members</div>
           </div>
         </DialogHeader>
         <DialogFooter className="bg-gray-100 px-6 py-4">
