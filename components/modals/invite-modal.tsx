@@ -3,6 +3,7 @@
 import { Check, Copy, RefreshCw } from "lucide-react";
 import axios from "axios";
 import { useState } from "react";
+import qs from "query-string";
 
 import {
   Dialog,
@@ -15,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useOrigin } from "@/hooks/use-origin";
+import { useAuth } from "@clerk/nextjs";
 
 export const InviteModal = () => {
   const {
@@ -26,6 +28,7 @@ export const InviteModal = () => {
   } = useModal();
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { userId } = useAuth();
 
   const copyLinkHandler = () => {
     navigator.clipboard.writeText(inviteUrl);
@@ -35,6 +38,15 @@ export const InviteModal = () => {
       setCopied(false);
     }, 1000);
   };
+
+  // const url = qs.stringifyUrl({
+  //   url: `/api/servers/${server?.id}/invite-code`,
+  //   query: {
+  //     inviter: server?.profileId,
+  //   },
+  // });
+
+  // console.log(url);
 
   const createNewLinkHandler = async () => {
     try {
@@ -53,7 +65,7 @@ export const InviteModal = () => {
   const origin = useOrigin();
 
   const isModalOpen = isOpen && type === "invite";
-  const inviteUrl = `${origin}/invite/${server?.inviteCode}`;
+  const inviteUrl = `${origin}/invite/${server?.inviteCode}?inviter=${userId}`;
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>

@@ -1,16 +1,22 @@
 import { redirectToSignIn } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/current-profile";
+
+import { ConfirmJoinServerModal } from "@/components/modals/confirm-join-server-modal";
 
 interface InviteCodePageProps {
   params: {
     inviteCode: string;
   };
+  searchParams: { inviter: string };
 }
 
-const InviteCodePage = async ({ params }: InviteCodePageProps) => {
+const InviteCodePage = async ({
+  params,
+  searchParams,
+}: InviteCodePageProps) => {
   const profile = await getCurrentUser();
 
   if (!profile) {
@@ -20,6 +26,15 @@ const InviteCodePage = async ({ params }: InviteCodePageProps) => {
   if (!params.inviteCode) {
     return redirect("/");
   }
+
+  console.log("yes");
+  const inviterProfile = await db.profile.findUnique({
+    where: {
+      userId: searchParams.inviter,
+    },
+  });
+
+  console.log(inviterProfile);
 
   const existingServer = await db.server.findFirst({
     where: {
@@ -36,23 +51,36 @@ const InviteCodePage = async ({ params }: InviteCodePageProps) => {
     return redirect(`/servers/${existingServer.id}`);
   }
 
-  const server = await db.server.update({
+  const server = await db.server.findFirst({
     where: {
       inviteCode: params.inviteCode,
     },
-    data: {
-      members: {
-        create: [
-          {
-            profileId: profile.id,
-          },
-        ],
-      },
+    include: {
+      members: true,
     },
+    // data: {
+    //   members: {
+    //     create: [
+    //       {
+    //         profileId: profile.id,
+    //       },
+    //     ],
+    //   },
+    // },
   });
 
+  // if (server) {
+  //   return redirect(`/servers/${server.id}`);
+  // }
+
   if (server) {
-    return redirect(`/servers/${server.id}`);
+    return (
+      <ConfirmJoinServerModal
+        server={server}
+        inviter={inviterProfile!.name}
+        currentUserId={profile.id}
+      />
+    );
   }
 
   return null;
