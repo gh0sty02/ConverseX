@@ -27,6 +27,7 @@
     "axios": "^1.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "cmdk": "^0.2.0",
     "lucide-react": "^0.291.0",
     "next": "14.0.1",
     "next-themes": "^0.2.1",
