@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import qs from "query-string";
 
 import {
@@ -37,10 +37,24 @@ import { ChannelType } from "@prisma/client";
 export const CreateChannelModal = () => {
   // hook calls
   const [isImageLoading, setIsImageLoading] = useState(false);
-  const { isOpen, onClose, onOpen, type } = useModal();
+  const {
+    isOpen,
+    onClose,
+    onOpen,
+    type,
+    data: { channelType },
+  } = useModal();
   const router = useRouter();
   const params = useParams();
   const form = useCreateChannelForm();
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue("type", channelType);
+    } else {
+      form.setValue("type", ChannelType.TEXT);
+    }
+  }, [channelType, form]);
 
   const url = qs.stringifyUrl({
     url: "/api/channels",

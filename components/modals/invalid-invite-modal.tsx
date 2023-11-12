@@ -45,7 +45,7 @@ export const InvalidInviteModal = () => {
         <DialogFooter className="bg-gray-100 px-6 py-4">
           <Button
             variant="primary"
-            className=" text-white w-full focus-visible:ring-0"
+            className="text-white w-full focus-visible:ring-0"
             onClick={onCloseHandler}
           >
             Got It
