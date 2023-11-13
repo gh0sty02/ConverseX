@@ -1,4 +1,4 @@
-import { ChannelType, Server } from "@prisma/client";
+import { Channel, ChannelType, Server } from "@prisma/client";
 import { create } from "zustand";
 
 // When a button is clicked, the "onClick" handler calls the "onOpen" function with the type of the modal to be
@@ -14,11 +14,13 @@ export type ModalType =
   | "members"
   | "createChannel"
   | "leaveServer"
-  | "deleteServer";
+  | "deleteServer"
+  | "deleteChannel";
 
 interface ModalData {
   server?: Server;
   channelType?: ChannelType;
+  channel?: Channel;
 }
 
 // create a app wide zustand store to store a set of functions for managing modal-related state
