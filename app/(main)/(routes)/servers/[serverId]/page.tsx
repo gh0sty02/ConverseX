@@ -43,14 +43,9 @@ export default async function MemberIdPage({
 
   const initialChannel = server?.channels[0];
 
-  console.log(initialChannel);
-
   if (initialChannel?.name !== "general") {
-    console.log("return");
     return null;
   }
-
-  console.log("yes");
 
   return redirect(`/servers/${serverId}/channels/${initialChannel?.id}`);
 }

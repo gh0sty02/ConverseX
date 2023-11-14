@@ -11,7 +11,6 @@ export async function PATCH(
   req: Request,
   { params: { serverId } }: { params: { serverId: string } }
 ) {
-  console.log("inside");
   try {
     const { inviteCode, memberId } = addMemberToServerSchema.parse(
       await req.json()
