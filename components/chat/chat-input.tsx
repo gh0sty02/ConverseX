@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import qs from "query-string";
@@ -35,7 +35,17 @@ export const ChatInput = ({ apiUrl, name, query, type }: ChatInputProps) => {
     },
   });
 
-  const isLoading = form.formState.isSubmitting;
+  /// set the chat input element in focus on initial load and after sending the message
+  const {
+    formState: { isDirty, isSubmitting },
+    setFocus,
+  } = form;
+
+  useEffect(() => {
+    if (!isDirty) {
+      setFocus("content");
+    }
+  }, [setFocus, isDirty, form]);
 
   const onSubmitHandler = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -71,7 +81,7 @@ export const ChatInput = ({ apiUrl, name, query, type }: ChatInputProps) => {
                   </button>
                   <Input
                     {...field}
-                    disabled={isLoading}
+                    disabled={isSubmitting}
                     className="px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                     placeholder={`Message ${
                       type === "conversation" ? name : "#" + name
