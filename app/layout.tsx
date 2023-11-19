@@ -8,6 +8,8 @@ import { ModalProvider } from "@/components/providers/modal-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { SocketProvider } from "@/components/providers/socket-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
 
 const inter = Open_Sans({ subsets: ["latin"] });
 
@@ -25,17 +27,30 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={cn(inter.className, "bg-white dark:bg-[#323338]")}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            storageKey="discord-theme"
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-full">
+                <div className="flex flex-col items-center">
+                  <Loader2 className="w-20 h-20 text-indigo-500 dark:text-indigo-400 animate-spin" />
+                  <p className="text-black dark:text-white font-bold text-center">
+                    Loading, Please Wait...
+                  </p>
+                </div>
+              </div>
+            }
           >
-            <SocketProvider>
-              <ModalProvider />
-              <QueryProvider>{children}</QueryProvider>
-            </SocketProvider>
-          </ThemeProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem={false}
+              storageKey="discord-theme"
+            >
+              <SocketProvider>
+                <ModalProvider />
+                <QueryProvider>{children}</QueryProvider>
+              </SocketProvider>
+            </ThemeProvider>
+          </Suspense>
         </body>
       </html>
     </ClerkProvider>
