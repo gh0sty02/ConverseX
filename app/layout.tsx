@@ -27,30 +27,30 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={cn(inter.className, "bg-white dark:bg-[#323338]")}>
-          <Suspense
-            fallback={
-              <div className="flex items-center justify-center h-full">
-                <div className="flex flex-col items-center">
-                  <Loader2 className="w-20 h-20 text-indigo-500 dark:text-indigo-400 animate-spin" />
-                  <p className="text-black dark:text-white font-bold text-center">
-                    Loading, Please Wait...
-                  </p>
-                </div>
-              </div>
-            }
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            storageKey="discord-theme"
           >
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem={false}
-              storageKey="discord-theme"
-            >
-              <SocketProvider>
+            <SocketProvider>
+              <Suspense
+                fallback={
+                  <div className="flex items-center justify-center h-full">
+                    <div className="flex flex-col items-center">
+                      <Loader2 className="w-20 h-20 text-indigo-500 dark:text-indigo-400 animate-spin" />
+                      <p className="text-black dark:text-white font-bold text-center">
+                        Loading, Please Wait...
+                      </p>
+                    </div>
+                  </div>
+                }
+              >
                 <ModalProvider />
                 <QueryProvider>{children}</QueryProvider>
-              </SocketProvider>
-            </ThemeProvider>
-          </Suspense>
+              </Suspense>
+            </SocketProvider>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
