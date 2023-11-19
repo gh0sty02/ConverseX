@@ -8,8 +8,6 @@ import { ModalProvider } from "@/components/providers/modal-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { SocketProvider } from "@/components/providers/socket-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
-import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
 
 const inter = Open_Sans({ subsets: ["latin"] });
 
