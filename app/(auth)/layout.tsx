@@ -1,11 +1,8 @@
-import SuspenseLoader from "@/components/suspense-loader";
-import React, { Suspense } from "react";
+import React from "react";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Suspense fallback={<SuspenseLoader />}>
-      <div className="h-full flex items-center justify-center">{children}</div>
-    </Suspense>
+    <div className="h-full flex items-center justify-center">{children}</div>
   );
 };
 
