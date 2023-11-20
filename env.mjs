@@ -19,6 +19,9 @@ export const env = createEnv({
     UPLOADTHING_SECRET: z.string(),
     UPLOADTHING_APP_ID: z.string(),
     NEXT_PUBLIC_URL: z.string().url(),
+    LIVEKIT_API_KEY: z.string(),
+    LIVEKIT_API_SECRET: z.string(),
+    NEXT_PUBLIC_LIVEKIT_URL: z.string().url(),
   },
 
   /**
@@ -51,6 +54,9 @@ export const env = createEnv({
     UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
+    LIVEKIT_API_KEY: process.env.LIVEKIT_API_KEY,
+    LIVEKIT_API_SECRET: process.env.LIVEKIT_API_SECRET,
+    NEXT_PUBLIC_LIVEKIT_URL: process.env.NEXT_PUBLIC_LIVEKIT_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
