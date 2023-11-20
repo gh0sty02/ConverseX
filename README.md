@@ -132,6 +132,17 @@
 
 Make sure that you have [Node.js](https://nodejs.org/en/) and the latest version of NPM installed on your local machine.
 
-- npm
+- Clone the Repository
+  ```
+  git clone https://github.com/gh0sty02/ConverseX.git
+  ```
+
+- Install Dependencies
   ```sh
-  npm install npm@latest -g
+  npm install
+  ```
+
+- Run the App
+  ```sh
+  npm run dev
+  ```
