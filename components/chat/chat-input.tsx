@@ -1,18 +1,18 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import * as z from "zod";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import qs from "query-string";
 import axios from "axios";
+import { Plus } from "lucide-react";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Plus, Smile } from "lucide-react";
 import { useModal } from "@/hooks/useModalStore";
 import { EmojiPicker } from "@/components/emoji-picker";
-import { useRouter } from "next/navigation";
 
 interface ChatInputProps {
   apiUrl: string;

@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { Member, Server } from "@prisma/client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   DialogHeader,
@@ -8,14 +12,8 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
-import { Member, Server } from "@prisma/client";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { db } from "@/lib/db";
-import { ServerWithMembersWithProfiles } from "@/types";
-import axios from "axios";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 interface ConfirmJoinServerModalProps {
   server: Server & {

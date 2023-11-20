@@ -1,14 +1,13 @@
 import { ChannelType, MemberRoles } from "@prisma/client";
 import { redirect } from "next/navigation";
 import React from "react";
+import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { ServerHeader } from "@/components/server/server-header";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ServerSearch } from "./server-search";
-import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
-import { SelectSeparator } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { ServerSection } from "./server-section";
 import ServerChannel from "./server-channel";

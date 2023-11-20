@@ -2,6 +2,8 @@
 
 import { SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+
 import {
   CommandDialog,
   CommandEmpty,
@@ -10,7 +12,6 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { useParams, useRouter } from "next/navigation";
 
 interface ServerSearchProps {
   data: {

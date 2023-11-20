@@ -31,7 +31,6 @@ export const CreateServerModal = () => {
   // hook calls
   const [isImageLoading, setIsImageLoading] = useState(false);
   const { isOpen, onClose, onOpen, type } = useModal();
-  const router = useRouter();
   const form = useCreateServerForm();
 
   const submitHandler = useModalSubmitFactory({

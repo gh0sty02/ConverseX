@@ -1,8 +1,8 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import qs from "query-string";
+import { ChannelType } from "@prisma/client";
 
 import {
   Dialog,
@@ -31,21 +31,16 @@ import {
   SelectTrigger,
   SelectValue,
   SelectItem,
-} from "../ui/select";
-import { ChannelType } from "@prisma/client";
+} from "@/components/ui/select";
 
 export const EditChannelModal = () => {
   // hook calls
-  const [isImageLoading, setIsImageLoading] = useState(false);
   const {
     isOpen,
     onClose,
-    onOpen,
     type,
     data: { channel, server },
   } = useModal();
-  const router = useRouter();
-  const params = useParams();
   const form = useCreateChannelForm(channel);
 
   useEffect(() => {

@@ -6,6 +6,7 @@ import {
   Trash,
   LogOut,
 } from "lucide-react";
+
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 interface MenuItemProps {

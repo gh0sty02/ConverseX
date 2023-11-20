@@ -1,14 +1,14 @@
 "use client";
-
 import { Member, Message, Profile } from "@prisma/client";
-import React, { Fragment, useRef, ElementRef } from "react";
-import { ChatWelcome } from "./chat-welcome";
-import { useChatQuery } from "@/hooks/use-chat-query";
 import { Loader2, ServerCrash } from "lucide-react";
-import { ChatItem } from "./chat-item";
+import { Fragment, useRef, ElementRef } from "react";
 import { format } from "date-fns";
+
+import { useChatQuery } from "@/hooks/use-chat-query";
 import { useChatSocket } from "@/hooks/use-chat-socket";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
+import { ChatWelcome } from "./chat-welcome";
+import { ChatItem } from "./chat-item";
 
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 

@@ -1,8 +1,9 @@
 "use client";
 
-import { env } from "@/env.mjs";
 import { createContext, useContext, useEffect, useState } from "react";
 import { io as ClientIo } from "socket.io-client";
+
+import { env } from "@/env.mjs";
 
 type SocketContextType = {
   socket: any | null;

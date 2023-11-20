@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -12,9 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/useModalStore";
-
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
 export const LeaveServerModal = () => {
   const {

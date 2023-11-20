@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -29,7 +28,6 @@ import { useCreateServerForm } from "@/lib/form/useServerForm";
 
 export const EditServerModal = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
-  const router = useRouter();
   const form = useCreateServerForm();
   const {
     isOpen,

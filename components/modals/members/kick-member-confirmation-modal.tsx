@@ -9,7 +9,7 @@ import {
   DialogTrigger,
   DialogContent,
   DialogDescription,
-} from "../../ui/dialog";
+} from "@/components/ui/dialog";
 
 interface KickUserConfirmationModal {
   setIsKickMemberDialogOpen: Dispatch<SetStateAction<boolean>>;
