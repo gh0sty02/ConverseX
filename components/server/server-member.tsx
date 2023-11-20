@@ -18,7 +18,6 @@ const roleIconMap = {
 };
 
 const ServerMember = ({ member, server }: ServerMemberProps) => {
-  console.log(member.profile.name, member.profileId);
   const params = useParams();
   const router = useRouter();
 
