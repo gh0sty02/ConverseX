@@ -9,6 +9,13 @@ import { ChannelType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import React from "react";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "ConverseX | Channel",
+  description: "Channel Page",
+};
+
 interface ChannelIdPageProps {
   params: {
     serverId: string;

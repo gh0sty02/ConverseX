@@ -53,11 +53,12 @@ export const InitialModal = () => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Customize your Server
+            Welcome to ConverseX
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-            Give your server a personality with a name and a image. You can
-            always change it later
+            To kick things off, let&apos;s create your very own server.
+            <br />
+            Personalize it with a name and image
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>

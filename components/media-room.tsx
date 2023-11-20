@@ -6,6 +6,7 @@ import "@livekit/components-styles";
 import { Channel } from "@prisma/client";
 import { useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
+import { env } from "@/env.mjs";
 
 interface MediaRoomProps {
   chatId: string;
@@ -47,7 +48,7 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
   return (
     <LiveKitRoom
       data-lk-theme="default"
-      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
+      serverUrl={env.NEXT_PUBLIC_LIVEKIT_URL}
       token={token}
       connect={true}
       video={video}

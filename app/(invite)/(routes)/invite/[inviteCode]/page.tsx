@@ -1,11 +1,16 @@
 import { redirectToSignIn } from "@clerk/nextjs";
 import { redirect, useSearchParams } from "next/navigation";
+import { Metadata } from "next";
 
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/current-profile";
-
 import { ConfirmJoinServerModal } from "@/components/modals/confirm-join-server-modal";
 import { InvalidInviteModal } from "@/components/modals/invalid-invite-modal";
+
+export const metadata: Metadata = {
+  title: "ConverseX | Join Server",
+  description: "Join Server Using Invite Link",
+};
 
 interface InviteCodePageProps {
   params: {
