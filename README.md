@@ -63,20 +63,44 @@
 | Voice Channels      | &#10004; | Create and join voice channels for audio communication using Livekit |
 | User Authentication | &#10004; | Secure user authentication system with Clerk.                 |
 | Reply to Specific Messages | &#10004; | Reply directly to a specific message for contextual conversations.                 |
-
 | Multimedia Sharing   | &#10004; | Share images and Pdfs.                    |
-| User Profiles        | &#10004; | Customize user profiles with avatars and status messages. |
+
+
+
+
+
+
+
+## User Management Features
+
+| Feature                    | Coded? | Description                                               |
+| -------------------------- | :------: | --------------------------------------------------------- |
+| User Registration          | &#10004;     | Allow users to register accounts securely.                |
+| User Profile               | &#10004;     | Users can create and customize their profiles.           |
+| Profile Pictures           | &#10004;     | Upload and display profile pictures for personalization. |
+| Account Settings           | &#10004;     | Provide users with options to manage their account settings. |
+| Role-Based Access Control  | &#10004;       | Assign roles and permissions to control user access.      |
+| User Search                | &#10004;       | Enable users to search for and connect with others on the platform. |
+| Invite Users                |  &#10004;      | Invite New users with Invite links    |
 | Moderation Tools     | &#10004; | Admin and moderation tools for managing users and content. |
 | Cross-Platform       | &#10004; | Access Discord Clone from web browsers and dedicated applications. |
-| Server Management   | &#10004; | Create servers and channels for organized discussions. |
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
 
-- [Your Framework/Language](https://yourframeworkurl.com/)
-- [Another Framework or Library](https://frameworkorlibraryurl.com/)
-- [And So On...](https://andsoonurl.com/)
+[nextjs]: https://nextjs.org
+[prisma]: https://www.prisma.io
+[shadcn]: https://shad.cn
+[tailwind css]: https://tailwindcss.com
+[livekit]: https://livekit.io
+[mysql]: https://www.mysql.com
+[planetscale]: https://planetscale.com
+[uploadthing]: https://uploadthingy.com
+[tanstack react-query]: https://react-query.tanstack.com
+[zod]: https://github.com/colinhacks/zod
+[zustand]: https://zustand.surge.sh
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
