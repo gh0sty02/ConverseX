@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import qs from "query-string";
 import axios from "axios";
-import { Plus } from "lucide-react";
+import { Plus, SendHorizonal as SendHorizontal } from "lucide-react";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -88,12 +88,15 @@ export const ChatInput = ({ apiUrl, name, query, type }: ChatInputProps) => {
                     }`}
                     autoComplete="off"
                   />
-                  <div className="absolute top-7 right-8">
+                  <div className="absolute flex gap-x-3 top-7 right-8">
                     <EmojiPicker
                       onChange={(emoji: string) =>
                         field.onChange(`${field.value} ${emoji}`)
                       }
                     />
+                    <button type="submit">
+                      <SendHorizontal className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+                    </button>
                   </div>
                 </div>
               </FormControl>
