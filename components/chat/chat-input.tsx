@@ -94,7 +94,7 @@ export const ChatInput = ({ apiUrl, name, query, type }: ChatInputProps) => {
                         field.onChange(`${field.value} ${emoji}`)
                       }
                     />
-                    <button type="submit">
+                    <button type="submit" disabled={isSubmitting}>
                       <SendHorizontal className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
                     </button>
                   </div>
