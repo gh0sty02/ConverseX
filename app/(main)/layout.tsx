@@ -1,7 +1,6 @@
 import React from "react";
 
 import { NavigationSideBar } from "@/components/navigation/navigation-sidebar";
-import SuspenseLoader from "../../components/suspense-loader";
 
 export default function MainLayout({
   children,

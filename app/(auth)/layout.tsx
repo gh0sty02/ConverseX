@@ -1,5 +1,4 @@
 import React from "react";
-import SuspenseLoader from "../../components/suspense-loader";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
