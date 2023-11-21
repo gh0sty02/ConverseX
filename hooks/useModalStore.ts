@@ -12,6 +12,7 @@ export type ModalType =
   | "invite"
   | "editServer"
   | "members"
+  | "confirmKickMember"
   | "createChannel"
   | "leaveServer"
   | "deleteServer"
@@ -26,6 +27,8 @@ interface ModalData {
   channel?: Channel;
   apiUrl?: string;
   query?: Record<string, any>;
+  memberId?: string;
+  memberName?: string;
 }
 
 // create a app wide zustand store to store a set of functions for managing modal-related state

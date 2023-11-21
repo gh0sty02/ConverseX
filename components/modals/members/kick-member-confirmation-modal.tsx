@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { Member, Profile } from "@prisma/client";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { Member, Profile, Server } from "@prisma/client";
+import qs from "query-string";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +11,10 @@ import {
   DialogContent,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { useModal } from "@/hooks/useModalStore";
+import { useRouter } from "next/navigation";
+import axios, { AxiosResponse } from "axios";
+import { Loader2 } from "lucide-react";
 
 interface KickUserConfirmationModal {
   setIsKickMemberDialogOpen: Dispatch<SetStateAction<boolean>>;
@@ -18,29 +23,55 @@ interface KickUserConfirmationModal {
   member: Member & { profile: Profile };
 }
 
-export const KickUserConfirmationModal = ({
-  member,
-  isKickMemberDialogOpen,
-  onKick,
-  setIsKickMemberDialogOpen,
-}: KickUserConfirmationModal) => {
+export const KickUserConfirmationModal = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const {
+    isOpen,
+    onClose,
+    onOpen,
+    type,
+    data: { memberId, memberName, server },
+  } = useModal();
+  const router = useRouter();
+
+  const onKickHandler = async () => {
+    try {
+      setIsLoading(true);
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server?.id,
+        },
+      });
+
+      const response: AxiosResponse<Server> = await axios.delete(url);
+
+      router.refresh();
+
+      onOpen("members", { server: response.data });
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const isModalOpen = isOpen && type === "confirmKickMember";
   return (
-    <Dialog
-      open={isKickMemberDialogOpen}
-      onOpenChange={setIsKickMemberDialogOpen}
-    >
+    <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogTrigger asChild></DialogTrigger>
       <DialogContent className="bg-white text-black overflow-hidden">
         <DialogHeader className="text-xl font-semibold text-left">
-          Kick {member.profile.name} from Server
+          Kick {memberName} from Server
         </DialogHeader>
         <DialogDescription className="text-black">
-          Are you sure you want to kick @{member.profile.name} from the server ?
-          they will be able to rejoin again with new invite.
+          Are you sure you want to kick @{memberName} from the server ? they
+          will be able to rejoin again with new invite.
         </DialogDescription>
         <DialogFooter className="flex items-center justify-end ">
           <Button
-            onClick={() => setIsKickMemberDialogOpen(false)}
+            onClick={() => onClose()}
             variant="ghost"
             className="text-xs text-gray-500 w-24"
           >
@@ -48,13 +79,16 @@ export const KickUserConfirmationModal = ({
           </Button>
           <Button
             variant="destructive"
-            className="text-xs w-24"
+            className="text-xs w-24 text-center"
             onClick={() => {
-              setIsKickMemberDialogOpen(false);
-              onKick(member.id);
+              onKickHandler();
             }}
           >
-            Kick
+            {isLoading ? (
+              <Loader2 className="animate-spin text-zinc-500 w-4 h-4" />
+            ) : (
+              "Kick"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

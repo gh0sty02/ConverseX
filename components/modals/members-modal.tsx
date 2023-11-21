@@ -85,29 +85,6 @@ export const MembersModal = () => {
     }
   };
 
-  const onKick = async (memberId: string) => {
-    try {
-      setLoadingId(memberId);
-
-      const url = qs.stringifyUrl({
-        url: `/api/members/${memberId}`,
-        query: {
-          serverId: server?.id,
-        },
-      });
-
-      const response: AxiosResponse<Server> = await axios.delete(url);
-
-      router.refresh();
-
-      onOpen("members", { server: response.data });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadingId("");
-    }
-  };
-
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-white text-black overflow-hidden">
@@ -179,20 +156,24 @@ export const MembersModal = () => {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           onClick={() => {
-                            setIsKickMemberDialogOpen(true);
+                            onOpen("confirmKickMember", {
+                              memberId: member.id,
+                              memberName: member.profile.name,
+                              server: server,
+                            });
                           }}
                         >
                           <Gavel className="h-4 w-4 mr-2" />
                           Kick
                         </DropdownMenuItem>
                       </DropdownMenuContent>
-                      <KickUserConfirmationModal
+                      {/* <KickUserConfirmationModal
                         isKickMemberDialogOpen={isKickMemberDialogOpen}
                         member={member}
                         onKick={onKick}
                         setIsKickMemberDialogOpen={setIsKickMemberDialogOpen}
                         key={member.id}
-                      />
+                      /> */}
                     </DropdownMenu>
                   </div>
                 )}
