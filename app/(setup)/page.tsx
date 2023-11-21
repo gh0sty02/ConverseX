@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 import { initialProfile } from "@/lib/initial-profile";
-import { InitialModal } from "@/components/modals/initial-modal";
+import { InitialModal } from "@/components/modals/server/initial-modal";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

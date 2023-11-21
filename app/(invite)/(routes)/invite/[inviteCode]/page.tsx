@@ -4,8 +4,8 @@ import { Metadata } from "next";
 
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/current-profile";
-import { ConfirmJoinServerModal } from "@/components/modals/confirm-join-server-modal";
-import { InvalidInviteModal } from "@/components/modals/invalid-invite-modal";
+import { ConfirmJoinServerModal } from "@/components/modals/server/confirm-join-server-modal";
+import { InvalidInviteModal } from "@/components/modals/server/invalid-invite-modal";
 
 export const metadata: Metadata = {
   title: "ConverseX | Join Server",

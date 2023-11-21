@@ -2,18 +2,18 @@
 
 import { useEffect, useState } from "react";
 
-import { CreateServerModal } from "@/components/modals/create-server-modal";
-import { InviteModal } from "@/components/modals/invite-modal";
-import { EditServerModal } from "@/components/modals/edit-server-modal";
-import { MembersModal } from "@/components/modals/members-modal";
-import { CreateChannelModal } from "@/components/modals/create-channel-modal";
-import { LeaveServerModal } from "@/components/modals/leave-server-modal";
-import { DeleteServerModal } from "@/components/modals/delete-server-modal";
-import { DeleteChannelModal } from "@/components/modals/delete-channel-modal";
-import { EditChannelModal } from "@/components/modals/edit-channel-modal";
-import { MessageFileModal } from "@/components/modals/message-file-modal";
-import { DeleteMessageModal } from "@/components/modals/delete-message-modal";
-import { KickUserConfirmationModal } from "../modals/members/kick-member-confirmation-modal";
+import { CreateServerModal } from "@/components/modals/server/create-server-modal";
+import { InviteModal } from "@/components/modals/server/invite-modal";
+import { EditServerModal } from "@/components/modals/server/edit-server-modal";
+import { MembersModal } from "@/components/modals/members/members-modal";
+import { CreateChannelModal } from "@/components/modals/channel/create-channel-modal";
+import { LeaveServerModal } from "@/components/modals/server/leave-server-modal";
+import { DeleteServerModal } from "@/components/modals/server/delete-server-modal";
+import { DeleteChannelModal } from "@/components/modals/channel/delete-channel-modal";
+import { EditChannelModal } from "@/components/modals/channel/edit-channel-modal";
+import { MessageFileModal } from "@/components/modals/message/message-file-modal";
+import { DeleteMessageModal } from "@/components/modals/member/delete-message-modal";
+import { KickUserConfirmationModal } from "@/components/modals/members/kick-member-confirmation-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
