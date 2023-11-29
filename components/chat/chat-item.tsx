@@ -17,6 +17,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/useModalStore";
+import { useTextMessageForm } from "@/lib/form/useTextMessageForm";
 
 interface ChatItemProps {
   id: string;
@@ -69,12 +70,8 @@ export const ChatItem = ({
   const isPDF = fileType === "pdf" && fileUrl;
   const isImage = !isPDF && fileUrl;
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      content: content,
-    },
-  });
+  const form = useTextMessageForm();
+  const isLoading = form.formState.isLoading;
 
   useEffect(() => {
     form.reset({
@@ -93,12 +90,9 @@ export const ChatItem = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const isLoading = form.formState.isLoading;
-
   const messageEditHandler = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = createUrl(`${socketUrl}/${id}`, socketQuery);
-
       await axios.patch(url, values);
       form.reset();
       setIsEditing(false);
@@ -111,7 +105,6 @@ export const ChatItem = ({
     if (member.id === currentMember.id) {
       return;
     }
-
     router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
   };
 

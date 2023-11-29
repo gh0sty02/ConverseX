@@ -62,6 +62,7 @@ export const CreateChannelModal = () => {
     method: "POST",
     url,
     schema: createChannelSchema,
+    refresh: true,
   });
 
   const handleClose = () => {

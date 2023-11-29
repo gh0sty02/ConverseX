@@ -59,6 +59,7 @@ export const EditChannelModal = () => {
     method: "PATCH",
     url,
     schema: createChannelSchema,
+    refresh: true,
   });
 
   const handleClose = () => {

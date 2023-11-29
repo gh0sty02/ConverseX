@@ -3,8 +3,6 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import {
@@ -20,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useModal } from "@/hooks/useModalStore";
 import { createUrl } from "@/lib/utils";
+import { useFileMessageForm } from "@/lib/form/useFileMessageForm";
 
 export const MessageFileModal = () => {
   const {
@@ -36,15 +35,12 @@ export const MessageFileModal = () => {
       message: "Server Image is Required",
     }),
   });
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      fileUrl: "",
-    },
-  });
+  const form = useFileMessageForm();
+
+  const url = createUrl(apiUrl || "", query);
+
   const submitHandler = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = createUrl(apiUrl || "", query);
       await axios.post(url, {
         ...values,
         content: values.fileUrl,
