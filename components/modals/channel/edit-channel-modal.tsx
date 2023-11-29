@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import qs from "query-string";
+import { useEffect } from "react";
 import { ChannelType } from "@prisma/client";
 
 import {
@@ -32,6 +31,7 @@ import {
   SelectValue,
   SelectItem,
 } from "@/components/ui/select";
+import { createUrl } from "@/lib/utils";
 
 export const EditChannelModal = () => {
   // hook calls
@@ -50,11 +50,8 @@ export const EditChannelModal = () => {
     }
   }, [form, channel]);
 
-  const url = qs.stringifyUrl({
-    url: `/api/channels/${channel?.id}`,
-    query: {
-      serverId: server?.id,
-    },
+  const url = createUrl(`/api/channels/${channel?.id}`, {
+    serverId: server?.id,
   });
 
   const submitHandler = useModalSubmitFactory({

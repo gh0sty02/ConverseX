@@ -1,10 +1,10 @@
 "use client";
 
-import qs from "query-string";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Video, VideoOff } from "lucide-react";
 
 import { ActionTooltip } from "@/components/action-tooltip";
+import { createUrl } from "@/lib/utils";
 
 export const ChatVideoButton = () => {
   const pathName = usePathname();
@@ -16,12 +16,10 @@ export const ChatVideoButton = () => {
   const tooltipLabel = isVideo ? "End Video Call" : "Start Video Call";
 
   const onClickHander = () => {
-    const url = qs.stringifyUrl(
+    const url = createUrl(
+      pathName || "",
       {
-        url: pathName || "",
-        query: {
-          video: isVideo ? undefined : true,
-        },
+        video: isVideo ? undefined : true,
       },
       { skipNull: true }
     );

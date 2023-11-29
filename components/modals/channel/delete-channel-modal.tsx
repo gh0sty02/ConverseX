@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import { useState } from "react";
-import qs from "query-string";
 import { useRouter } from "next/navigation";
 
 import {
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/useModalStore";
 import { Button } from "@/components/ui/button";
+import { createUrl } from "@/lib/utils";
 
 export const DeleteChannelModal = () => {
   const {
@@ -33,11 +33,8 @@ export const DeleteChannelModal = () => {
     try {
       setIsLoading(true);
 
-      const url = qs.stringifyUrl({
-        url: `/api/channels/${channel?.id}`,
-        query: {
-          serverId: server?.id,
-        },
+      const url = createUrl(`/api/channels/${channel?.id}`, {
+        serverId: server?.id,
       });
 
       await axios.delete(url);

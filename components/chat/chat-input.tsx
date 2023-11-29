@@ -5,7 +5,6 @@ import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import qs from "query-string";
 import axios from "axios";
 import { Plus, SendHorizonal as SendHorizontal } from "lucide-react";
 
@@ -13,6 +12,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useModal } from "@/hooks/useModalStore";
 import { EmojiPicker } from "@/components/emoji-picker";
+import { createUrl } from "@/lib/utils";
 
 interface ChatInputProps {
   apiUrl: string;
@@ -49,10 +49,7 @@ export const ChatInput = ({ apiUrl, name, query, type }: ChatInputProps) => {
 
   const onSubmitHandler = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = qs.stringifyUrl({
-        url: apiUrl,
-        query,
-      });
+      const url = createUrl(apiUrl, query);
 
       await axios.post(url, values);
       form.reset();

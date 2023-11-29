@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Member, Profile, Server } from "@prisma/client";
-import qs from "query-string";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +14,7 @@ import { useModal } from "@/hooks/useModalStore";
 import { useRouter } from "next/navigation";
 import axios, { AxiosResponse } from "axios";
 import { Loader2 } from "lucide-react";
+import { createUrl } from "@/lib/utils";
 
 interface KickUserConfirmationModal {
   setIsKickMemberDialogOpen: Dispatch<SetStateAction<boolean>>;
@@ -37,11 +37,9 @@ export const KickUserConfirmationModal = () => {
   const onKickHandler = async () => {
     try {
       setIsLoading(true);
-      const url = qs.stringifyUrl({
-        url: `/api/members/${memberId}`,
-        query: {
-          serverId: server?.id,
-        },
+
+      const url = createUrl(`/api/members/${memberId}`, {
+        serverId: server?.id,
       });
 
       const response: AxiosResponse<Server> = await axios.delete(url);

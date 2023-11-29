@@ -3,20 +3,12 @@
 import { Member, Profile, MemberRoles } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import qs from "query-string";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {
-  Edit,
-  FileIcon,
-  ShieldAlert,
-  ShieldCheck,
-  Trash,
-  X,
-} from "lucide-react";
+import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from "lucide-react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, createUrl } from "@/lib/utils";
 import { useRouter, useParams } from "next/navigation";
 
 import { UserAvatar } from "@/components/user-avatar";
@@ -105,10 +97,7 @@ export const ChatItem = ({
 
   const messageEditHandler = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = qs.stringifyUrl({
-        url: `${socketUrl}/${id}`,
-        query: socketQuery,
-      });
+      const url = createUrl(`${socketUrl}/${id}`, socketQuery);
 
       await axios.patch(url, values);
       form.reset();

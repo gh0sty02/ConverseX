@@ -2,7 +2,6 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import qs from "query-string";
 import { ChannelType } from "@prisma/client";
 
 import {
@@ -33,18 +32,16 @@ import {
   SelectValue,
   SelectItem,
 } from "@/components/ui/select";
+import { createUrl } from "@/lib/utils";
 
 export const CreateChannelModal = () => {
   // hook calls
-  const [isImageLoading, setIsImageLoading] = useState(false);
   const {
     isOpen,
     onClose,
-    onOpen,
     type,
     data: { channelType },
   } = useModal();
-  const router = useRouter();
   const params = useParams();
   const form = useCreateChannelForm();
 
@@ -56,11 +53,8 @@ export const CreateChannelModal = () => {
     }
   }, [channelType, form]);
 
-  const url = qs.stringifyUrl({
-    url: "/api/channels",
-    query: {
-      serverId: params?.serverId,
-    },
+  const url = createUrl("/api/channels", {
+    serverId: params?.serverId,
   });
 
   const submitHandler = useModalSubmitFactory({

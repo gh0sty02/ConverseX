@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
-import qs from "query-string";
 import { MemberRoles, Server } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
@@ -39,6 +38,7 @@ import { ServerWithMembersWithProfiles } from "@/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { UserAvatar } from "@/components/user-avatar";
 import { KickUserConfirmationModal } from "@/components/modals/members/kick-member-confirmation-modal";
+import { createUrl } from "@/lib/utils";
 
 const roleIconMap = {
   ADMIN: <ShieldAlert className="h-4 w-4 text-red-500" />,
@@ -49,7 +49,6 @@ const roleIconMap = {
 export const MembersModal = () => {
   const { isOpen, onClose, onOpen, type, data } = useModal();
   const [loadingId, setLoadingId] = useState("");
-  const [isKickMemberDialogOpen, setIsKickMemberDialogOpen] = useState(false);
   const router = useRouter();
 
   const { server } = data as { server: ServerWithMembersWithProfiles };
@@ -67,11 +66,8 @@ export const MembersModal = () => {
 
       setLoadingId(memberId);
 
-      const url = qs.stringifyUrl({
-        url: `/api/members/${memberId}`,
-        query: {
-          serverId: server?.id,
-        },
+      const url = createUrl(`/api/members/${memberId}`, {
+        serverId: server?.id,
       });
 
       const response: AxiosResponse<Server> = await axios.patch(url, { role });

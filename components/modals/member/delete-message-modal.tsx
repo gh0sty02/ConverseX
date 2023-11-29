@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import { useState } from "react";
-import qs from "query-string";
 
 import {
   Dialog,
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/useModalStore";
 import { Button } from "@/components/ui/button";
+import { createUrl } from "@/lib/utils";
 
 export const DeleteMessageModal = () => {
   const {
@@ -31,10 +31,7 @@ export const DeleteMessageModal = () => {
     try {
       setIsLoading(true);
 
-      const url = qs.stringifyUrl({
-        url: apiUrl || "",
-        query,
-      });
+      const url = createUrl(apiUrl || "", query);
 
       await axios.delete(url);
       onClose();
