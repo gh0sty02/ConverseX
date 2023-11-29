@@ -41,6 +41,7 @@ export const InitialModal = () => {
     method: "POST",
     url: "/api/servers",
     schema: createServerSchema,
+    refresh: true,
   });
 
   const isLoading = form.formState.isSubmitting;

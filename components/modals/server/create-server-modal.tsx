@@ -38,6 +38,7 @@ export const CreateServerModal = () => {
     method: "POST",
     url: "/api/servers",
     schema: createServerSchema,
+    refresh: true,
   });
 
   const handleClose = () => {

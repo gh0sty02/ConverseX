@@ -51,6 +51,7 @@ export const EditServerModal = () => {
     method: "POST",
     url: "/api/servers",
     schema: createServerSchema,
+    refresh: true,
   });
   const handleClose = () => {
     form.reset();
