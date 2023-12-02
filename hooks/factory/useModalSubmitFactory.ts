@@ -22,7 +22,6 @@ interface useModalSubmitFactoryArgs {
   method: "POST" | "PATCH";
   refresh: boolean;
   extraValues?: Record<string, any>;
-  fileUrl?: true;
   schema:
     | typeof createServerSchema
     | typeof createChannelSchema
@@ -36,20 +35,16 @@ export const useModalSubmitFactory = ({
   url,
   schema,
   refresh,
-  extraValues,
-  fileUrl,
 }: useModalSubmitFactoryArgs) => {
   const router = useRouter();
   const { onClose } = useModal();
   return async (values: z.infer<typeof schema>) => {
     try {
-      if (fileUrl) {
-        await axios({
-          url,
-          method,
-          data: { ...values, ...extraValues, content: values?.fileUrl },
-        });
-      }
+      await axios({
+        url,
+        method,
+        data: values,
+      });
 
       if (form) {
         form.reset();
