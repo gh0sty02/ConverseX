@@ -41,6 +41,8 @@ jobs:
                 .select('*')  // Select all columns
                 .limit(10);   // Limit to 10 rows
 
+              console.log(data);
+
               if (error) throw error;
 
               console.log('Ping successful');
